@@ -24,10 +24,12 @@ func main() {
 	for _, passwordInput := range s {
 		passwordMap := strings.Split(passwordInput, " ")
 		indexes := strings.Split(passwordMap[0], "-")
-		min, _ := strconv.Atoi(indexes[0])
-		max, _ := strconv.Atoi(indexes[1])
+		index1, _ := strconv.Atoi(indexes[0])
+		index1--
+		index2, _ := strconv.Atoi(indexes[1])
+		index2--
 		char := passwordMap[1][0]
-		if isValidPassword(passwordMap[2], min, max, int(char)) {
+		if isValidPassword(passwordMap[2], index1, index2, char) {
 			numberOfValid = numberOfValid + 1
 		}
 	}
@@ -39,14 +41,17 @@ func main() {
 	os.Exit(1)
 }
 
-func isValidPassword(password string, minAmt int, maxAmt int, characterToCheck int) bool {
+func isValidPassword(password string, index1 int, index2 int, characterToCheck byte) bool {
 	countOfChars := 0
-	for _, char := range password {
-		if characterToCheck == int(char) {
-			countOfChars = countOfChars + 1
-		}
+	if password[index1] == characterToCheck {
+		countOfChars++
 	}
-	if countOfChars >= minAmt && countOfChars <= maxAmt {
+
+	if password[index2] == characterToCheck {
+		countOfChars++
+	}
+
+	if countOfChars == 1 {
 		return true
 	}
 
